@@ -8,12 +8,28 @@
         border: 2px solid red;
         background-color: #ffe5e5;
       }
+      .row {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 4px;
+      }
+
+      .column {
+        flex: 50%;
+        padding: 0 4px;
+      }
+
+      .column img {
+        margin-top: 8px;
+        vertical-align: middle;
+      }
     </style>
   </head>
   <body>
     <button>Crear formulario</button>
     <span id="formulario"></span>
     <span id="exito"></span>
+    <span id="grid"></span>
     <script>
       const btn = document.querySelector("button");
       btn.addEventListener("click", (ev) => crearFormulario());
@@ -33,33 +49,82 @@
           '<input type="file" id="seleccionarImagen" accept="image/*"> <span id="errorImg" style="color:red; font-size:0.9em;"></span> <br> <br>';
         form += '<button type="submit">Enviar</button>';
         form += `</form>`;
-        document.getElementById("formulario").innerHTML += form;
+        document.getElementById("formulario").innerHTML = form;
       }
-      let IDs = [];
-
+      const IDs = [];
+      const productos = new Map();
       function validarFormulario(event) {
         event.preventDefault();
         let input = document.getElementById("IDProd");
         let errorSpan = document.getElementById("errorID");
-        let value = input.value.trim();
+        let valueID = input.value.trim();
 
-        input.classList.remove("error-input");
-        errorSpan.textContent = "";
+        ["IDProd", "producto", "precio", "seleccionarImagen"].forEach((id) => {
+          document.getElementById(id).classList.remove("error-input");
+        });
+        ["errorID", "errorProd", "errorPrecio", "errorImg"].forEach((id) => {
+          document.getElementById(id).innerHTML = "";
+        });
 
-        if (IDs.includes(value)) {
+        if (IDs.includes(valueID)) {
           input.classList.add("error-input");
           errorSpan.innerHTML = "Ese ID está repetido, introduzca otro. <br>";
           return false;
         }
 
-        if (!value) {
+        if (!valueID) {
           input.classList.add("error-input");
           errorSpan.innerHTML = "Por favor introduzca un ID";
           return false;
         }
-        IDs.push(value);
+        IDs.push(valueID);
 
+        input = document.getElementById("producto");
+        errorSpan = document.getElementById("errorProd");
+        let valueProd = input.value.trim();
+        if (!valueProd) {
+          input.classList.add("error-input");
+          errorSpan.innerHTML =
+            "Por favor introduzca el nombre del producto. <br>";
+          return false;
+        }
+        input = document.getElementById("precio");
+        errorSpan = document.getElementById("errorPrecio");
+        let valuePrecio = Number(input.value);
+        if (valuePrecio < 0) {
+          input.classList.add("error-input");
+          errorSpan.innerHTML = "Por favor introduzca un precio válido. <br>";
+          return false;
+        }
+        let inputImg = document.getElementById("seleccionarImagen");
+        errorSpan = document.getElementById("errorImg");
+        if (input.files.length == 0) {
+          input.classList.add("error-input");
+          errorSpan.innerHTML = "Por favor introduzca una imagen. <br>";
+          return false;
+        }
+        input = document.getElementById("descripcion");
+        let valueDesc = input.value.trim();
+        productos.set(valueID, {
+          valueID,
+          valueProd,
+          valuePrecio,
+          valueDesc,
+          inputImg,
+        });
 
+        let tabla = document.getElementById("grid");
+        if (tabla.innerHTML.trim() === "") {
+          tabla.innerHTML =
+            '<div class="row"> <div class="column"> </div> </div>';
+        }
+        tabla = document.getElementsByClassName("column");
+        const archivo = inputImg.files[0];
+        const url = URL.createObjectURL(archivo);
+
+        tabla[0].innerHTML += `
+          <img id="${valueID}" src="${url}" alt="imagen del producto">
+        `;
         document.getElementById("exito").innerText = "Producto añadido";
         return true;
       }
