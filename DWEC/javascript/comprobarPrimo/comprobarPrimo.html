@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>comprobarPrimos</title>
+  </head>
+  <body>
+    <h1>Comprobar si un número es primo</h1>
+    <!--Creo un botón que llame a la función de checkear el primo introducido-->
+    <input type="number" id="numero" />
+    <button onclick="checkearPrimo()">Checkear</button>
+    <!--Aquí se introducirá el mensaje dado por el javascript para ver si el número es primo o no, o si se ha insertado algo que no es número-->
+    <p id="mensaje"></p>
+    <h2>Números primos del 1 al 1000</h2>
+    <!--Aquí se introducirán los primos del 1 al 1000 dados por javascript-->
+    <div id="resultado"></div>
+    <script>
+      const resultado = document.getElementById("resultado");
+      let primos = [];
+      for (let i = 1; i <= 1000; i++) {
+        if (comprobarPrimo(i)) primos.push(i);
+      }
+      //Se escribirán los números primos utilizando la función de array join, y hago que se separan los elementos por una coma y un espacio
+      resultado.innerHTML = primos.join(", ");
+      //función creada para comprobar si un número es primo o no
+      function comprobarPrimo(num) {
+        if (num < 2) return false;
+        for (let i = 2; i <= Math.sqrt(num); i++) {
+          if (num % i === 0) return false;
+        }
+        return true;
+        //Función creada para revisar si el número dado por el usuario es primo o no
+      }
+      function checkearPrimo() {
+        const numero = parseInt(document.getElementById("numero").value);
+        const mensaje = document.getElementById("mensaje");
+        if (isNaN(numero)) {
+          mensaje.textContent = "Error, no ha introducido un número";
+          return;
+        }
+        if (comprobarPrimo(numero)) {
+          mensaje.textContent = `${numero} es un número primo.`;
+        } else {
+          mensaje.textContent = `${numero} no es un número primo.`;
+        }
+      }
+    </script>
+  </body>
+</html>

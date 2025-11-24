@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Te diré mi nombre</title>
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Juego adivina el número</h1>
+    <p>Dinos tu nombre y te saludaremos</p>
+    <div class="form">
+      //Aquí se escribe el nombre
+      <input type="text" id="dato" placeholder="Escribe tu nombre" />
+      //Con el click del botón llamo a la función
+      <button onclick="funcionAEjecutar()">Click</button>
+    </div>
+    <p id="resultado"></p>
+
+    //JavaScript
+    <script>
+      function funcionAEjecutar(params) {
+        //Declaro la variable dato y le doy el valor del id dato
+        let dato = document.getElementById("dato").value;
+        //Saldrá una alerta saludando y el document es para que se escriba en la página
+        alert("Hola " + dato);
+        document.getElementById("resultado").textContent = "Hola " + dato;
+      }
+    </script>
+  </body>
+</html>

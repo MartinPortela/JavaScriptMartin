@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Catálogo Dinámico</title>
+  </head>
+  <body>
+    <button>Crear formulario</button>
+    <span id="formulario"></span>
+    <script>
+      const btn = document.querySelector("button");
+      btn.addEventListener("click", (ev) => crearFormulario());
+      function crearFormulario() {
+        let form = "";
+        form =
+          '<form action="#" method="post" novalidate style=" background-color: white; border: 1px solid #ddd; border-radius: 6px; padding: 20px; max-width: 600px; margin: auto; " >';
+        form +=
+          'ID de producto <input type="text" id="IDProd" name="IDProd"/> <br> <br> ';
+        form +=
+          'Nombre del producto <input type="text" id="producto" name="producto"/>';
+        form += `</form>`;
+        document.getElementById("formulario").innerHTML += form;
+      }
+    </script>
+  </body>
+</html>

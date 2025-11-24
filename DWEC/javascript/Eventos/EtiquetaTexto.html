@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Etiqueta de texto- Martín Portela Seguí</title>
+  </head>
+  <body>
+    <button type="button">Esto es un botón</button><br />
+    <script>
+      const btn = document.querySelector("button");
+      btn.addEventListener("click", () => {
+        if (btn.innerText == "Esto no es un botón") {
+          btn.innerText = "Esto es un botón";
+        } else {
+          btn.innerText = "Esto no es un botón";
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>FormularioV2 - Martín Portela Seguí</title>
+  </head>
+  <body>
+    <ul id="lista"></ul>
+    <form id="libro-form">
+      <input
+        type="text"
+        name="titulo"
+        id="titulo"
+        placeholder="Título del libro"
+        required
+      />
+      <br />
+      <input type="text" name="autor" id="autor" placeholder="Autores" /><br />
+      <input
+        type="text"
+        name="anno"
+        id="anno"
+        placeholder="Año de publicación"
+      /><br />
+      <button type="submit">Enviar</button><br />
+    </form>
+    <button id="mostrar">Mostrar libros</button>
+    <script>
+      //Mapa llamado libros
+      const libros = new Map();
+
+      // Select para seleccionar elementos del DOM
+      const select = (selector) => document.querySelector(selector);
+
+      // Referencias a los elementos de la interfaz.
+      const lista = select("#lista");
+      const form = select("#libro-form");
+      const mostrarBtn = select("#mostrar");
+
+      // Evento: al enviar el formulario se guarda un nuevo cliente en el Map.
+      form.addEventListener("submit", (e) => {
+        e.preventDefault(); // Evita recargar la página al enviar el formulario.
+
+        // Capturamos los valores de los campos.
+        const titulo = select("#titulo").value.trim();
+        const nombre = select("#autor").value.trim();
+        const anno = select("#anno").value.trim();
+
+        //Título es obligatorio
+        if (!titulo) {
+          alert("Rellena los campos obligatorios");
+          return;
+        }
+
+        // Guardamos los datos en el Map usando el título como clave.
+        libros.set(titulo, { titulo, nombre, anno });
+
+        // Limpiamos el formulario después de guardar.
+        form.reset();
+      });
+
+      // Evento: al pulsar el botón "Mostrar" se imprimen los libros ordenados alfabéticamente.
+      mostrarBtn.addEventListener("click", () => {
+        // Limpiamos la lista actual.
+        lista.innerHTML = "";
+
+        // Creamos un array con los valores del Map y lo ordenamos por título.
+        const ordenados = [...libros.values()].sort((a, b) =>
+          a.titulo.localeCompare(b.titulo)
+        );
+
+        // Recorremos el array ordenado e insertamos cada libro como un <li>.
+        for (const c of ordenados) {
+          const li = document.createElement("li");
+          li.textContent = `${c.titulo}`;
+          if (c.nombre != "") {
+            li.textContent += ` (${c.nombre}) `;
+          }
+          if (c.anno != "") {
+            li.textContent += ` - ${c.anno}`;
+          }
+          lista.appendChild(li);
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Grid de colores</title>
+
+    <style>
+      #container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 100px;
+        gap: 5px;
+      }
+
+      .tile {
+        background-color: lightgray;
+        border: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+      <div class="tile"></div>
+    </div>
+
+    <script>
+      function random(number) {
+        return Math.floor(Math.random() * number);
+      }
+
+      function bgChange() {
+        return `rgb(${random(255)} ${random(255)} ${random(255)})`;
+      }
+
+      const container = document.querySelector("#container");
+
+      container.addEventListener("click", (event) => {
+        if (event.target.classList.contains("tile")) {
+          event.target.style.backgroundColor = bgChange();
+        }
+      });
+    </script>
+  </body>
+</html>

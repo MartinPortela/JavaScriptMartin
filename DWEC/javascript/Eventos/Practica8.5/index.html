@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Control de velocidad</title>
+    <style>
+      #capa {
+        position: fixed;
+        width: 50%;
+        height: 50%;
+        left: 25%;
+        top: 25%;
+        border: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="capa" style="overflow-y: auto">
+      <p style="font-size: 5em">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+        mollit anim id est laborum.
+      </p>
+    </div>
+    <script>
+      var capa = document.getElementById("capa");
+      var creado = false;
+      capa.addEventListener("scrollend", (ev) => {
+        if (!creado) {
+          var boton = document.createElement("button");
+          boton.innerText = "Cerrar";
+          capa.appendChild(boton);
+          boton.addEventListener("click", () => {
+            capa.remove();
+          });
+          creado = true;
+        }
+      });
+    </script>
+  </body>
+</html>

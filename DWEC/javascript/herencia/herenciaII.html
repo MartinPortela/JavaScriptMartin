@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>HerenciaII Martín Portela Seguí</title>
+    <h1>Martín Portela Seguí</h1>
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 100%;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+        class vehiculos{
+            constructor(marca,modelo,anno=2020,potencia=100,tipoCombustible="gasolina",velMax=180,encendido=false) {
+                this.marca=marca;
+                this.modelo=modelo;
+                this.anno=anno;
+                this.potencia=potencia;
+                this.tipoCombustible=tipoCombustible;
+                this.velMax=velMax;
+                this.encendido=encendido;
+            }
+            toString(){
+                console.log(`Marca:${this.marca} - Modelo:${this.modelo} - Año:${this.anno} - Potencia:${this.potencia} - Combustible:${this.tipoCombustible} - Velocidad Máxima=${this.velMax} - Estado:${this.encendido}`);
+            }
+            encender(){
+                this.encendido=true;
+                console.log("El vehículo está encendido");
+            }
+            apagar(){
+                this.encendido=false;
+                console.log("El vehículo está apagado");
+            }
+            acelerar(velocidad){
+                if(this.encendido){
+                    console.log(velocidad);
+                }else{
+                    console.log("Debe encenderse el vehículo");
+                }
+            }
+        };
+
+        class electronicos extends vehiculos{
+            constructor(marca,modelo,anno=2020,potencia=150,tipoCombustible="eléctrico",velMax="180",encendido=false, autonomia=300, bateria=100) {
+                super(marca,modelo,anno,potencia,tipoCombustible,velMax,encendido);
+                this.autonomia=autonomia;
+                this.bateria=bateria;
+                
+            }
+            toString(){
+                super.toString();
+                console.log(`Autonomía:${this.autonomia} - Batería:${this.bateria}`);
+            }
+            cargar(){
+                this.bateria=100;
+                console.log("La batería se ha recargado");
+            }
+            consumir(kw){
+                this.bateria -= kw;
+                if(this.bateria<=0){
+                    this.apagar();
+                }
+            }
+        }
+
+        let vehiculo=new vehiculos("12","Ferrari");
+        let vehiculo2=new electronicos("13","Ford");
+        vehiculo.encender();
+        vehiculo.acelerar(50);
+        vehiculo.toString();
+        vehiculo2.toString();
+        vehiculo2.consumir(100);
+        vehiculo2.cargar();
+        vehiculo2.toString();
+
+    </script>
+  </body>
+</html>

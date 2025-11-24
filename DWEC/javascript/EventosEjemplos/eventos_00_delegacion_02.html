@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Delegación de eventos en párrafos</title>
+  </head>
+  <body>
+    <p>Uno</p>
+    <p>Dos</p>
+    <p>Tres</p>
+    <p>Cuatro</p>
+
+    <button id="add">Añadir párrafo</button>
+
+    <script>
+      // Función que muestra el contenido del párrafo clicado
+      function escribeContenido(evento) {
+        if (evento.target.tagName === "P") {
+          console.log(evento.target.textContent);
+          alert(evento.target.textContent);
+        }
+      }
+
+      // Delegación de eventos: un solo listener para todos los párrafos
+      document.body.addEventListener("click", escribeContenido);
+
+      // Crear un nuevo párrafo dinámicamente
+      const btn = document.getElementById("add");
+      btn.addEventListener("click", () => {
+        const nuevoParrafo = document.createElement("p");
+        nuevoParrafo.textContent = "Cinco";
+        document.body.appendChild(nuevoParrafo);
+      });
+    </script>
+  </body>
+</html>

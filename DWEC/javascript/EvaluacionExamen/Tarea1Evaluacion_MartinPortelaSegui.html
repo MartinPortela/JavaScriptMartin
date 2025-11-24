@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Formulario Edición</title>
+  </head>
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 20px;
+    "
+  >
+    <form
+      onsubmit="return validarFormulario(event)"
+      action="#"
+      method="post"
+      novalidate
+      style="
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 20px;
+        max-width: 600px;
+        margin: auto;
+      "
+    >
+      <h2 style="margin-top: 0; color: #333">Edición</h2>
+
+      <!-- Asunto -->
+      <div style="margin-bottom: 15px">
+        <label
+          for="asunto"
+          style="display: block; font-weight: bold; margin-bottom: 4px"
+          >Asunto</label
+        >
+        <input
+          type="text"
+          id="asunto"
+          name="asunto"
+          maxlength="10"
+          placeholder="máx. 10 caracteres"
+          pattern="[A-Z][A-Za-z0-9 ]{0,9}"
+          style="
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          "
+        />
+        <div style="font-size: 12px; color: #777">
+          Entre 1 y 10 caracteres. Sin duplicados.
+        </div>
+      </div>
+
+      <!-- Fecha y Cantidad -->
+      <div style="display: flex; gap: 10px; margin-bottom: 15px">
+        <div style="flex: 1">
+          <label
+            for="fecha"
+            style="display: block; font-weight: bold; margin-bottom: 4px"
+            >Fecha</label
+          >
+          <input
+            type="date"
+            id="fecha"
+            name="fecha"
+            min="2000-01-01"
+            style="
+              width: 100%;
+              padding: 8px;
+              font-size: 14px;
+              box-sizing: border-box;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+            "
+          />
+          <div style="font-size: 12px; color: #777">
+            No anterior al 01/01/2000. Fecha válida.
+          </div>
+        </div>
+
+        <div style="flex: 1">
+          <label
+            for="cantidad"
+            style="display: block; font-weight: bold; margin-bottom: 4px"
+            >Cantidad</label
+          >
+          <input
+            type="number"
+            id="cantidad"
+            name="cantidad"
+            step="0.01"
+            value=""
+            style="
+              width: 100%;
+              padding: 8px;
+              font-size: 14px;
+              box-sizing: border-box;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              text-align: right;
+            "
+          />
+          <div style="font-size: 12px; color: #777">
+            Número decimal (mayor que 0)
+          </div>
+        </div>
+      </div>
+
+      <!-- Tipo -->
+      <div style="margin-bottom: 15px">
+        <label
+          for="tipo"
+          style="display: block; font-weight: bold; margin-bottom: 4px"
+          >Tipo</label
+        >
+        <select
+          id="tipo"
+          name="tipo"
+          style="
+            width: 100%;
+            padding: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+          "
+        >
+          <option value="Empresas">Empresas</option>
+          <option value="Particulares">Particulares</option>
+        </select>
+      </div>
+
+      <!-- Botón -->
+      <div style="margin-bottom: 10px">
+        <button
+          type="submit"
+          style="
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          "
+        >
+          Añadir/Actualizar
+        </button>
+      </div>
+    </form>
+
+    <div
+      style="
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        padding: 20px;
+        max-width: 600px;
+        margin: auto;
+      "
+    >
+      <h2 style="margin-top: 0; color: #333">Facturas</h2>
+
+      <!-- Lista de facturas -->
+      <div style="margin-bottom: 15px">
+        <label
+          for="lista"
+          style="display: block; font-weight: bold; margin-bottom: 4px"
+          >Lista de facturas</label
+        >
+        <ul
+          id="lista"
+          style="
+            width: 100%;
+            resize: none;
+            padding: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            overflow-y: scroll;
+            max-height: 200px;
+          "
+        ></ul>
+      </div>
+
+      <!-- Botones -->
+      <div
+        style="
+          display: flex;
+          gap: 10px;
+          justify-content: center;
+          margin-bottom: 15px;
+        "
+      >
+        <button
+          type="button"
+          id="botónEditar"
+          style="
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          "
+        >
+          Editar
+        </button>
+        <button
+          type="button"
+          id="botónEliminar"
+          style="
+            flex: 1;
+            padding: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+          "
+        >
+          Eliminar
+        </button>
+      </div>
+
+      <!-- Mensaje -->
+      <div style="font-size: 14px; color: #555">
+        <strong>Mensajes</strong><br />
+        <div id="mensajeTexto" style="margin-top: 5px; color: #444"></div>
+        <span id="factCount">0 factura(s)</span> · Errores acumulados:
+        <span id="errCount">0</span>
+      </div>
+    </div>
+
+    <script>
+      // Pongo la duración de cookies, 7 días, y las codifico
+      function setItem(name, value) {
+        document.cookie = `${name}=${encodeURIComponent(
+          value
+        )}; path=/; max-age=${60 * 60 * 24 * 7}`;
+      }
+
+      //Decodifico la cookie del nombre dado y la devuelvo como string
+      function getItem(name) {
+        const cookies = document.cookie.split("; ");
+        for (const cookie of cookies) {
+          const [key, val] = cookie.split("=");
+          if (key === name) return decodeURIComponent(val);
+        }
+        return null;
+      }
+
+      const asuntos = [];
+
+      // Restauro tipoPref, el contador de errores y el contador def facturas
+      window.addEventListener("load", () => {
+        const guardado = getItem("tipoPref");
+        if (guardado) {
+          document.getElementById("tipo").value = guardado;
+        }
+
+        const err = parseInt(getItem("errCount") || "0", 10);
+        document.getElementById("errCount").textContent = err;
+
+        const factCount = parseInt(getItem("factCount") || "0", 10);
+        document.getElementById("factCount").textContent =
+          factCount + " factura(s)";
+
+        // Restauro la lista de items
+        const listaData = JSON.parse(getItem("listaFacturas") || "[]");
+        const lista = document.getElementById("lista");
+        listaData.forEach((item) => {
+          const li = document.createElement("li");
+          li.textContent = item;
+          lista.appendChild(li);
+          // Aquí mantengo los asuntos para evitar repeticiones
+          const asuntoPart = item.split(":")[0];
+          if (asuntoPart) asuntos.push(asuntoPart);
+        });
+      });
+
+      //Función para poner los mensajes de error y confirmación
+      function mostrarMensaje(texto, tipo = "info") {
+        const msg = document.getElementById("mensajeTexto");
+        //Si es un mensaje de error, saldrá en rojo, mientras que si es confirmación saldrá verde. Si no se le aplica ningún tipo, será del color #444
+        if (tipo === "error") {
+          msg.style.color = "red";
+        } else if (tipo === "ok") {
+          msg.style.color = "green";
+        } else {
+          msg.style.color = "#444";
+        }
+
+        msg.textContent = texto;
+      }
+
+      //Aquí hago la validación de los campos
+      function validarFormulario(event) {
+        //Esto causará que primero se haga la validación antes de que se envíe el formulario
+        event.preventDefault();
+
+        // Aquí cargo el error y se sumará por cada error que salga
+        let err = parseInt(getItem("errCount") || "0", 10);
+
+        //Asunto, con sus validaciones
+        const input = document.getElementById("asunto");
+        const valor = input.value.trim();
+        const regexAsunto = /^[A-Z][A-Za-z0-9 ]{0,9}$/;
+        if (!regexAsunto.test(valor)) {
+          err++;
+          setItem("errCount", err);
+          document.getElementById("errCount").textContent = err;
+          mostrarMensaje(
+            "El asunto debe empezar por mayúscula y tener máximo 10 caracteres.",
+            "error"
+          );
+          return false;
+        }
+
+        if (asuntos.includes(valor)) {
+          err++;
+          setItem("errCount", err);
+          document.getElementById("errCount").textContent = err;
+          mostrarMensaje(
+            "El asunto ya existe. No se pueden repetir asuntos en facturas.",
+            "error"
+          );
+          return false;
+        }
+
+        //Validación de fechas
+        const fechaInput = document.getElementById("fecha");
+        const fechaValor = fechaInput.value;
+        const regexFecha =
+          /^(20[0-9]{2}|2000)-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
+
+        if (!fechaValor || !regexFecha.test(fechaValor)) {
+          err++;
+          setItem("errCount", err);
+          document.getElementById("errCount").textContent = err;
+          mostrarMensaje(
+            "Debe introducir una fecha con formato YYYY-MM-DD (>= 2000-01-01).",
+            "error"
+          );
+          return false;
+        }
+
+        //Valido la existencia de la fecha, a pesar de que en la mayoría de navegadores no sea necesario
+        const fechaIngresada = new Date(fechaValor);
+        if (isNaN(fechaIngresada.getTime())) {
+          err++;
+          setItem("errCount", err);
+          document.getElementById("errCount").textContent = err;
+          mostrarMensaje("La fecha introducida no existe.", "error");
+          return false;
+        }
+
+        //Me aseguro que la fecha no pueda ser anterior a la indicada
+        const fechaMinima = new Date("2000-01-01");
+        if (fechaIngresada < fechaMinima) {
+          err++;
+          setItem("errCount", err);
+          document.getElementById("errCount").textContent = err;
+          mostrarMensaje(
+            "La fecha no puede ser anterior al 01/01/2000.",
+            "error"
+          );
+          return false;
+        }
+
+        //Valido la cantidad
+        const cantidadInput = document.getElementById("cantidad");
+        const cantidadValor = cantidadInput.value.trim();
+        const cantidadNum = parseFloat(cantidadValor);
+
+        //Valido que sea un número y que sea mayor que 0
+        if (cantidadValor === "" || isNaN(cantidadNum) || cantidadNum <= 0) {
+          err++;
+          setItem("errCount", err);
+          document.getElementById("errCount").textContent = err;
+          mostrarMensaje(
+            "La cantidad debe ser un número decimal mayor que 0.",
+            "error"
+          );
+          return false;
+        }
+
+        //Recojo el tipo
+        const tipoInput = document.getElementById("tipo");
+        const tipoValor = tipoInput.value;
+
+        //Creo la representación de la factura como me es pedido
+        const texto = `${valor}: ${fechaValor} : ${cantidadNum.toFixed(
+          2
+        )} : ${tipoValor}`;
+
+        //Meto el valor al array de asuntos y adjunto el texto a la lista
+        asuntos.push(valor);
+        const lista = document.getElementById("lista");
+        const li = document.createElement("li");
+        li.textContent = texto;
+        lista.appendChild(li);
+
+        //Añado la lista a las cookies
+        const prevLista = JSON.parse(getItem("listaFacturas") || "[]");
+        prevLista.push(texto);
+        setItem("listaFacturas", JSON.stringify(prevLista));
+
+        //Actualizo el contador de facturas de cookies
+        let factCount = parseInt(getItem("factCount") || "0", 10);
+        factCount++;
+        setItem("factCount", factCount);
+        document.getElementById("factCount").textContent =
+          factCount + " factura(s)";
+
+        //Guardo el tipoPref de esta ocasión
+        setItem("tipoPref", tipoValor);
+
+        //Limpio los inputs
+        input.value = "";
+        cantidadInput.value = "";
+
+        mostrarMensaje("Factura añadida correctamente.", "ok");
+        return true;
+      }
+
+      document.getElementById("lista").addEventListener("click", function (e) {
+        if (e.target.tagName === "LI") {
+          // Quitar selección previa, les pongo el fondo en blanco
+          const items = this.querySelectorAll("li");
+          items.forEach((li) => (li.style.background = ""));
+
+          //Marco el seleccionado
+          e.target.style.background = "#d0ebff";
+          e.target.classList.add("selected");
+        }
+      });
+
+      //Función para editar la factura
+      function editarFactura() {
+        const lista = document.getElementById("lista");
+        const seleccionado = lista.querySelector("li.selected");
+
+        if (!seleccionado) {
+          alert("Debe seleccionar una factura para editar.", "error");
+          return;
+        }
+
+        //Corto la lista seleccionado por los apartados
+        const partes = seleccionado.textContent.split(":").map((p) => p.trim());
+
+        const asunto = partes[0];
+        const fecha = partes[1];
+        const cantidad = partes[2];
+        const tipo = partes[3];
+
+        //Lo cargo en el formulario
+        document.getElementById("asunto").value = asunto;
+        document.getElementById("fecha").value = fecha;
+        document.getElementById("cantidad").value = cantidad;
+        document.getElementById("tipo").value = tipo;
+
+        //Lo elimino de la lista
+        const index = asuntos.indexOf(asunto);
+        if (index !== -1) asuntos.splice(index, 1);
+
+        //Elimino el elemento visual
+        seleccionado.remove();
+
+        //Actualizo las cookies de la lista
+        const listaData = JSON.parse(getItem("listaFacturas") || "[]");
+        const nuevaLista = listaData.filter(
+          (item) => item !== seleccionado.textContent
+        );
+        setItem("listaFacturas", JSON.stringify(nuevaLista));
+
+        //Ahora actualizo el contador
+        let factCount = parseInt(getItem("factCount") || "0", 10);
+        factCount--;
+        setItem("factCount", factCount);
+        document.getElementById("factCount").textContent =
+          factCount + " factura(s)";
+      }
+
+      //Función para eliminar factura
+      function eliminarFactura() {
+        const lista = document.getElementById("lista");
+        const seleccionado = lista.querySelector("li.selected");
+
+        if (!seleccionado) {
+          mostrarMensaje(
+            "Debe seleccionar una factura para eliminar.",
+            "error"
+          );
+          return;
+        }
+
+        const texto = seleccionado.textContent;
+        const asunto = texto.split(":")[0].trim();
+
+        //Quito el array de asuntos
+        const index = asuntos.indexOf(asunto);
+        if (index !== -1) asuntos.splice(index, 1);
+
+        //Elimino la lista seleccionada
+        seleccionado.remove();
+
+        //Lo quito de las cookies
+        const listaData = JSON.parse(getItem("listaFacturas") || "[]");
+        const nuevaLista = listaData.filter((item) => item !== texto);
+        setItem("listaFacturas", JSON.stringify(nuevaLista));
+
+        //Actualizo el contador
+        let factCount = parseInt(getItem("factCount") || "0", 10);
+        factCount--;
+        setItem("factCount", factCount);
+        document.getElementById("factCount").textContent =
+          factCount + " factura(s)";
+      }
+
+      document.getElementById("botónEditar").onclick = editarFactura;
+      document.getElementById("botónEliminar").onclick = eliminarFactura;
+    </script>
+  </body>
+</html>

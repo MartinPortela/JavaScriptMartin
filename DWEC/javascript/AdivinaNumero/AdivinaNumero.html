@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+      var numero = Math.floor(Math.random() * 10) + 1;
+      var numeroUsuario = prompt("Adivine el número: ");
+      var intentos = 1;
+      var confirmar = true;
+
+      //Cada vez que se pueda poner un número, haré que si es null, es decir, que se cancele el bloque, aparezca que el juego ha acabado
+      if (numeroUsuario == null) {
+        alert("El juego ha acabado");
+      } else {
+        //El while sirve para que se siga ejecutando el bucle mientras el usuario quiera
+        while (confirmar) {
+          //While que sirve para checkear si es un número o no
+          while (isNaN(numeroUsuario)) {
+            numeroUsuario = prompt(
+              "No has puesto un número, adivine el número: "
+            );
+            if (numeroUsuario == null) {
+              alert("El juego ha acabado");
+              confirmar = false;
+            }
+          }
+
+          //Convierto el número del usuario en entero
+          numeroUsuario = parseInt(numeroUsuario);
+
+          //Los siguientes ifs son para los casos posibles del ejercicio
+          if (numeroUsuario == numero) {
+            confirmar = false;
+            if (
+              window.confirm(
+                "¿Quieres seguir jugando? Tu número de intentos han sido " +
+                  intentos
+              )
+            ) {
+              //Esto es para reiniciar los valores y que se repita el proceso sin problemas
+              confirmar = true;
+              numero = Math.floor(Math.random() * 10) + 1;
+              intentos = 1;
+              numeroUsuario = prompt("Adivine el número: ");
+              if (numeroUsuario == null) {
+                alert("El juego ha acabado");
+                confirmar = false;
+              }
+            }
+          } else if (numeroUsuario > numero) {
+            numeroUsuario = prompt(
+              "Has fallado, el número es mayor al del juego, adivine el número: "
+            );
+            if (numeroUsuario == null) {
+              alert("El juego ha acabado");
+              confirmar = false;
+            }
+            intentos++;
+          } else {
+            numeroUsuario = prompt(
+              "Has fallado, el número es menor al del juego, adivine el número: "
+            );
+            if (numeroUsuario == null) {
+              alert("El juego ha acabado");
+              confirmar = false;
+            }
+            intentos++;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Herencia Martín Portela Seguí</title>
+    <h1>Martín Portela Seguí</h1>
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 100%;
+        margin: 0 auto;
+      }
+    </style>
+  </head>
+
+  <body>
+    <script>
+        class ordenadores{
+            constructor(marca,modelo,RAM=4,discoDuro=512,pulgadas=17) {
+                this.marca=marca;
+                this.modelo=modelo;
+                this.RAM=RAM;
+                this.discoDuro=discoDuro;
+                this.pulgadas=pulgadas;
+            }
+            toString(){
+                let texto=JSON.stringify(this);
+                console.log(texto)
+            }
+        };
+
+        class portatiles extends ordenadores{
+            constructor(marca,modelo,RAM=4,discoDuro=256,pulgadas=12,autonomia=4) {
+                super(marca,modelo,RAM,discoDuro,pulgadas);
+                this.autonomia=autonomia;
+            }
+        }
+        let ordenador1=new ordenadores("H", "JAVA");
+        ordenador1.toString();
+        let ordenador2=new portatiles("P","F");
+        ordenador2.toString();
+
+    </script>
+  </body>
+</html>
