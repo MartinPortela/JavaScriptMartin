@@ -77,7 +77,6 @@
           errorSpan.innerHTML = "Por favor introduzca un ID";
           return false;
         }
-        IDs.push(valueID);
 
         input = document.getElementById("producto");
         errorSpan = document.getElementById("errorProd");
@@ -98,7 +97,7 @@
         }
         let inputImg = document.getElementById("seleccionarImagen");
         errorSpan = document.getElementById("errorImg");
-        if (input.files.length == 0) {
+        if (inputImg.files.length == 0) {
           input.classList.add("error-input");
           errorSpan.innerHTML = "Por favor introduzca una imagen. <br>";
           return false;
@@ -121,9 +120,9 @@
         tabla = document.getElementsByClassName("column");
         const archivo = inputImg.files[0];
         const url = URL.createObjectURL(archivo);
-
+        IDs.push(valueID);
         tabla[0].innerHTML += `
-          <img id="${valueID}" src="${url}" alt="imagen del producto">
+          <img width=400px height=400px id="${valueID}" src="${url}" alt="imagen del producto">
         `;
         document.getElementById("exito").innerText = "Producto añadido";
         return true;
