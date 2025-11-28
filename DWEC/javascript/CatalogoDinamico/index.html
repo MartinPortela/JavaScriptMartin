@@ -98,15 +98,15 @@
         errorSpan = document.getElementById("errorImg");
         //Comprobación para que haya una imagen
         if (inputImg.files.length == 0) {
-          input.classList.add("error-input");
+          inputImg.classList.add("error-input");
           errorSpan.innerHTML = "Por favor introduzca una imagen. <br>";
           return false;
         }
         //Descripción no precisa de comprobación
         input = document.getElementById("descripcion");
         let valueDesc = input.value.trim();
-        hacerTabla(valueID,inputImg);
-        productos.set(valueID,{valueID,valueProd,valueDesc,valuePrecio});
+        hacerTabla(valueID, inputImg);
+        productos.set(valueID, { valueID, valueProd, valueDesc, valuePrecio });
         document.getElementById("exito").innerText = "Producto añadido";
         return true;
       }
@@ -117,9 +117,10 @@
         //Si no hay nada, se crea la tabla
         if (tabla.innerHTML.trim() === "") {
           tabla.style.display = "grid";
-          tabla.style.gridTemplateColumns = "repeat(auto-fill, minmax(200px, 1fr))";
+          tabla.style.gridTemplateColumns =
+            "repeat(auto-fill, minmax(200px, 1fr))";
           tabla.style.gap = "10px";
-          tabla.style.margin="20px";
+          tabla.style.margin = "20px";
         }
         //Recojo la imagen, creo una url con la dirección de la imagen y creo una celda donde estará esa imagen
         const archivo = inputImg.files[0];
@@ -138,55 +139,51 @@
         }
       });
       //Cuando se quite el ratón, se elimina el nombre
-      document.addEventListener("mouseout",function(ev){
-        if(ev.target.tagName==="IMG"){
+      document.addEventListener("mouseout", function (ev) {
+        if (ev.target.tagName === "IMG") {
           eliminarNombreImagen(ev);
         }
-      })
+      });
       //Si hago click derecho sobre una imagen, esto hará que se muestren los valores
-      document.addEventListener("click",function(ev){
-        if(ev.target.tagName==="IMG"){
-           mostrarValores(ev);
+      document.addEventListener("click", function (ev) {
+        if (ev.target.tagName === "IMG") {
+          mostrarValores(ev);
         }
-      })
+      });
       //Si hago click izquierdo, prevengo el contextmenu y hago que el producto se elimine
-      document.addEventListener("contextmenu", function(ev) {
-      if (ev.target.tagName === "IMG") {
-        ev.preventDefault(); 
-        eliminarProducto(ev);
-      }
+      document.addEventListener("contextmenu", function (ev) {
+        if (ev.target.tagName === "IMG") {
+          ev.preventDefault();
+          eliminarProducto(ev);
+        }
       });
 
       //Función para mostrar solo el nombre del producto, haciendo uso del map
-      function nombreImagen(ev)
-      {
+      function nombreImagen(ev) {
         const id = ev.target.id;
         //Esto sirve para que no se repita el nombre
         if (ev.target.parentElement.querySelector(".nombreProd")) return;
-        const nombre = document.createElement("div");              
-        nombre.className="nombreProd";
-        nombre.innerText=productos.get(id).valueProd;
+        const nombre = document.createElement("div");
+        nombre.className = "nombreProd";
+        nombre.innerText = productos.get(id).valueProd;
         ev.target.parentElement.appendChild(nombre);
       }
 
       //Elimino el nombre de producto
-      function eliminarNombreImagen(ev)
-      {
-        const element=document.getElementsByClassName("nombreProd");
+      function eliminarNombreImagen(ev) {
+        const element = document.getElementsByClassName("nombreProd");
         if (element.length > 0) {
-        element[0].remove();
-      }
+          element[0].remove();
+        }
       }
 
       //Función para mostrar los valores
-      function mostrarValores(ev)
-      {
-
+      function mostrarValores(ev) {
         const id = ev.target.id;
         //Si ya los he mostrado, no se repite
         if (ev.target.parentElement.querySelector(".infoProd")) return;
-        const nombre = document.createElement("div");              
-        nombre.className="infoProd";
+        const nombre = document.createElement("div");
+        nombre.className = "infoProd";
         nombre.innerHTML = `
         ID: ${productos.get(id).valueID} <br>
         Nombre: ${productos.get(id).valueProd} <br>
@@ -196,10 +193,9 @@
         ev.target.parentElement.appendChild(nombre);
       }
       //Elimino el producto no solo del html sino también del map de JS
-      function eliminarProducto(ev)
-      {
+      function eliminarProducto(ev) {
         const id = ev.target.id;
-        const element=document.getElementsByClassName(`${id}`);
+        const element = document.getElementsByClassName(`${id}`);
         element[0].remove();
         productos.delete(id);
       }
