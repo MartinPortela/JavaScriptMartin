@@ -17,72 +17,59 @@
     <span id="grid"></span>
     <script>
       class API {
-        constructor(valueID, valueProd, valueDesc, valuePrecio, inputImg) 
-        {
-            this.valueID=valueID;
-            this.valueProd=valueProd;
-            this.valueDesc=valueDesc;
-            this.valuePrecio=valuePrecio;
-            this.inputImg=inputImg;
-            this.productos = new Map();
+        constructor() {
+          this.productos = new Map();
         }
-        
+
         //Función que guarda el producto en el map
-        guardarProducto(producto) 
-        {
-            return new Promise((resolve, reject) => {
+        guardarProducto(producto) {
+          return new Promise((resolve, reject) => {
             setTimeout(() => {
-                //Validar si ya existe el ID
-                if (this.productos.has(producto.id)) {
+              //Validar si ya existe el ID
+              if (this.productos.has(producto.id)) {
                 reject("Error: El ID ya existe");
-                } else {
+              } else {
                 //Guardar el producto
-                this.productos.set(producto.id,producto);
+                this.productos.set(producto.id, producto);
                 resolve("Producto guardado");
-                }
+              }
             }, 2000);
-            });
+          });
         }
 
         //Función que borra el producto
-        borrarProducto(id)
-        {
-            return new Promise((resolve, reject) => {
+        borrarProducto(id) {
+          return new Promise((resolve, reject) => {
             setTimeout(() => {
-                //Si no existe el ID, devuelvo reject
-                if (!this.productos.has(id)) {
+              //Si no existe el ID, devuelvo reject
+              if (!this.productos.has(id)) {
                 reject();
-                }
-                //Chance de fallar del 10%
-                 const fallo = Math.random() < 0.1;
-                 if(fallo)
-                 {  
-                    reject();
-                 }
-                 else {
+              }
+              //Chance de fallar del 10%
+              const fallo = Math.random() < 0.1;
+              if (fallo) {
+                reject();
+              } else {
                 //Lo borro del map
                 this.productos.delete(id);
                 resolve();
-                }
+              }
             }, 1500);
-            });
+          });
         }
 
         //Método de validar la imagen
         validarImagen(url) {
-        return new Promise((resolve, reject) => {
+          return new Promise((resolve, reject) => {
             const img = new Image();
             //La src de la imagen será igual a la url dada
             img.src = url;
             img.onload = () => resolve();
             img.onerror = () => reject();
-
-        });
+          });
         }
+      }
 
-        }
-
-      
       //Variable que será el botón, para añadirle un event listener que en click cree el formulario
       const btn = document.querySelector("button");
       const api = new API();
@@ -102,11 +89,11 @@
           'Precio <input type="number" id="precio" name="precio" step="0.1"/> <span id="errorPrecio" style="color:red; font-size:0.9em;"></span> <br> <br>';
         form +=
           '<input type="file" id="seleccionarImagen" accept="image/*"> <span id="errorImg" style="color:red; font-size:0.9em;"></span> <br> <br>';
-        form += '<button id="button" type="submit">Enviar</button>';
+        form += '<button id="button" type="submit">Añadir producto</button>';
         form += `</form>`;
         document.getElementById("formulario").innerHTML = form;
       }
-      
+
       //Función para validar el formulario
       function validarFormulario(event) {
         //Evito que se envíe el formulario
@@ -165,53 +152,55 @@
         input = document.getElementById("descripcion");
         let valueDesc = input.value.trim();
         const producto = {
-        id: valueID,
-        valueProd,
-        valueDesc,
-        valuePrecio,
-        inputImg
+          id: valueID,
+          valueProd,
+          valueDesc,
+          valuePrecio,
+          inputImg,
         };
 
         //Creo una constante que apunte al elemento botón
-        const btnForm=document.getElementById("button");
+        const btnForm = document.getElementById("button");
         //Le añado el atributo disabled
         btnForm.setAttribute("disabled", "disabled");
         //Cambio su texto al guardando
-        btnForm.innerText="Guardando...";
+        btnForm.innerText = "Guardando...";
         const img = inputImg.files[0];
         //Recojo el url de la imagen
         const url = URL.createObjectURL(img);
         //Paso la url al método
-        api.validarImagen(url).then(() => {
-          //Si pasa validarImagen, se irá a guardarProducto y se ejecutará de forma normal
+        api
+          .validarImagen(url)
+          .then(() => {
+            //Si pasa validarImagen, se irá a guardarProducto y se ejecutará de forma normal
             return api.guardarProducto(producto);
-        })
-        .then(() => {
+          })
+          .then(() => {
             //Se realiza la tabla
             hacerTabla(producto.id, producto.inputImg);
             //Reseteo el form
             document.getElementById("form").reset();
             document.getElementById("exito").innerText = "Producto añadido";
-        })
-        .catch((err) => {
-            
+          })
+          .catch((err) => {
             inputImg.classList.add("error-input");
             //Si el error es de tipo ID, lo indico, si no, será de imagen
             if (err === "Error: El ID ya existe") {
-            const inputID = document.getElementById("IDProd");
-            const errorID = document.getElementById("errorID");
-            inputID.classList.add("error-input");
-            errorID.innerHTML = err;
+              const inputID = document.getElementById("IDProd");
+              const errorID = document.getElementById("errorID");
+              inputID.classList.add("error-input");
+              errorID.innerHTML = err;
             } else {
-            inputImg.classList.add("error-input"); 
-            errorSpan.innerHTML = "Por favor introduzca una imagen válida. <br>";
+              inputImg.classList.add("error-input");
+              errorSpan.innerHTML =
+                "Por favor introduzca una imagen válida. <br>";
             }
-        })
-        .finally(() => {
+          })
+          .finally(() => {
             //Cambio el texto del botón para que diga añadir producto y quito el disabled
             btnForm.innerText = "Añadir producto";
             btnForm.removeAttribute("disabled");
-        });        
+          });
         return true;
       }
 
@@ -255,24 +244,27 @@
         }
       });
       //Si hago click izquierdo, prevengo el contextmenu y hago que el producto se elimine
-      document.addEventListener("contextmenu", /*Hago que la función sea asincrónica*/async function (ev) {
-        if (ev.target.tagName === "IMG") {
-          ev.preventDefault();
-          const img = ev.target.parentElement;
-          const id=ev.target.id;
-          //Cambio la opacidad de la imagen para que se vuelva semi transparente
-          img.style.opacity="0.5";
-          try {
-            //Pongo el await, así eliminarProducto debe esperar a que borrarProducto se realice
-            await api.borrarProducto(id); 
-            eliminarProducto(ev);
-        } catch (err) {
-            //Si no se logra borrar, suelta este alert
-            img.style.opacity = 1;
-            alert("Error al borrar el producto");
+      document.addEventListener(
+        "contextmenu",
+        /*Hago que la función sea asincrónica*/ async function (ev) {
+          if (ev.target.tagName === "IMG") {
+            ev.preventDefault();
+            const img = ev.target.parentElement;
+            const id = ev.target.id;
+            //Cambio la opacidad de la imagen para que se vuelva semi transparente
+            img.style.opacity = "0.5";
+            try {
+              //Pongo el await, así eliminarProducto debe esperar a que borrarProducto se realice
+              await api.borrarProducto(id);
+              eliminarProducto(ev);
+            } catch (err) {
+              //Si no se logra borrar, suelta este alert
+              img.style.opacity = 1;
+              alert("Error al borrar el producto");
+            }
+          }
         }
-        }
-      });
+      );
 
       //Función para mostrar solo el nombre del producto, haciendo uso del map
       function nombreImagen(ev) {
@@ -283,7 +275,7 @@
         nombre.className = "nombreProd";
         const prod = api.productos.get(id);
         nombre.innerText = prod.valueProd;
-        ev.target.parentElement.appendChild(nombre)
+        ev.target.parentElement.appendChild(nombre);
       }
 
       //Elimino el nombre de producto
