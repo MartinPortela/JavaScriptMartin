@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Desplegable con Doble AJAX</title>
+    <style>
+      /* (Estilos omitidos por brevedad) */
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding: 20px;
+        background-color: #f4f4f9;
+      }
+      .container {
+        max-width: 800px;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        color: #333;
+        border-bottom: 2px solid #555;
+        padding-bottom: 10px;
+      }
+      select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+      th {
+        background-color: #555;
+        color: white;
+      }
+      .loading {
+        color: orange;
+        font-style: italic;
+      }
+      .error {
+        color: red;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎙️ Filtrado Dinámico de Chinook</h1>
+
+      <label for="artista-selector">Selecciona Artista:</label>
+      <select id="artista-selector">
+        <option value="todos" selected disabled>Cargando artistas...</option>
+      </select>
+
+      <h2>Pistas de Rock:</h2>
+      <div id="tracks-container">
+        <p class="loading">Cargando lista inicial de pistas...</p>
+      </div>
+    </div>
+
+    <script src="script2.js"></script>
+  </body>
+</html>
